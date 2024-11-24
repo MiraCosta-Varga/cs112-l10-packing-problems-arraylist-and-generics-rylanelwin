@@ -1,4 +1,6 @@
-public class Inventory {
+import java.util.List;
+
+public class Inventory <T extends Supplies> {
 
 	/*     STEP 3 
 	*        
@@ -8,6 +10,37 @@ public class Inventory {
 	*
 	*      Go to Transfer.java for STEP 4
 	*/
+
+	//INSTANCE VARIABLES
+
+	private T t;
+
+	//CONSTRUCTORS
+
+	public Inventory() {
+
+	}
+	
+	public Inventory(T t) {
+		this.t = t;
+	}
+
+	public Inventory(Inventory<T> other) {
+		this.t = other.getObj();
+	}
+
+	//GETTERS
+
+	public T getObj() {
+		return t;
+	}
+	
+	//SETTERS
+
+	public void setObj(T t) {
+		this.t = t;
+	}
+
 
 	/*     STEP 5
 	*
@@ -20,6 +53,18 @@ public class Inventory {
 	*      input String "name", use the indexOf() method to return the 
 	*      index. If no match is found, return -1. 
 	*/
+
+	public int searchByName(List<T> inputList, String name) {
+		
+		for (T element : inputList) {
+			if (element.getName().equals(name)) {
+				return inputList.indexOf(element);
+			}
+		}
+
+		System.out.println("Item not found");
+		return -1;
+	}
 
 
 	/*     STEP 7:
@@ -43,5 +88,24 @@ public class Inventory {
 	*      match the quantity in the list, then update using .setQuantity
 	*      and return the object with the new quantity.
 	*/
+
+	public T checkQty(List<T> inputList, String name, int desiredQuantity) {
+		
+		int index = searchByName(inputList, name);
+		T item = inputList.get(index);
+
+		if (index == -1 || item == null) {
+			System.out.println(name + " not found or doesn't exist");
+			return null;
+		}
+
+		if (item.getQuantity() == desiredQuantity) {
+			System.out.println("Quantity of " + name + " is already " + desiredQuantity);
+		} else {
+			item.setQuantity(desiredQuantity);
+			System.out.println("Quantity of " + name + " changed to " + desiredQuantity);
+		}
+		return item;
+	}
 
 }
